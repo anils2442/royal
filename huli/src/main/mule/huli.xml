@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="9e240388-e95c-4303-b44d-d4cc7a4e23b2" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<file:config name="File_Config" doc:name="File Config" doc:id="4b85e88e-d4f4-43af-a12f-4e161cb4d2f9" />
+	<flow name="huliFlow" doc:id="2d896d06-fd6a-49ef-9089-b656262f9b91" >
+		<http:listener doc:name="Listener" doc:id="db3bc3ae-7d91-4108-a322-d5f3b7385a18" config-ref="HTTP_Listener_config" path="/huli"/>
+		<logger level="INFO" doc:name="Logger" doc:id="1b807807-f4aa-4690-92ae-91ce62501fc7" message="e sala cup namde"/>
+		<file:read doc:name="Read" doc:id="4d860877-8e5a-4da8-86ce-7a7eb98d5cd3" config-ref="File_Config" path="C:\Users\AnilKumar S\Desktop\mule(3).txt"/>
+		<logger level="INFO" doc:name="Logger" doc:id="8c26b37e-0437-4248-93ae-b0cb9480a82d" message="read message read sucessfully"/>
+		<file:write doc:name="Write" doc:id="1076f616-87b0-457c-b17b-382d394c1736" config-ref="File_Config" path="C:\Users\AnilKumar S\Desktop\mule(2).txt">
+			<file:content ><![CDATA[huli government teacher]]></file:content>
+		</file:write>
+	</flow>
+</mule>
