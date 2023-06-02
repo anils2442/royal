@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:munit="http://www.mulesoft.org/schema/mule/munit" xmlns:munit-tools="http://www.mulesoft.org/schema/mule/munit-tools"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xsi:schemaLocation="
+		http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+		http://www.mulesoft.org/schema/mule/munit http://www.mulesoft.org/schema/mule/munit/current/mule-munit.xsd
+		http://www.mulesoft.org/schema/mule/munit-tools  http://www.mulesoft.org/schema/mule/munit-tools/current/mule-munit-tools.xsd">
+	<munit:config name="abcdf-test-suite.xml" />
+	<munit:test name="abcdf-test-suite-abcdfFlowTest" doc:id="f7e6c883-36ca-4321-9fa2-0e51b058cf45" description="Test">
+		<munit:execution >
+			<flow-ref doc:name="Flow-ref to abcdfFlow" doc:id="5384e2f0-1d67-437f-afae-2947b2a16231" name="abcdfFlow"/>
+		</munit:execution>
+	</munit:test>
+
+
+</mule>
