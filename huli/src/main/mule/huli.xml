@@ -17,5 +17,6 @@ http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/fil
 		<file:write doc:name="Write" doc:id="1076f616-87b0-457c-b17b-382d394c1736" config-ref="File_Config" path="C:\Users\AnilKumar S\Desktop\mule(2).txt">
 			<file:content ><![CDATA[huli government teacher]]></file:content>
 		</file:write>
+		<logger level="INFO" doc:name="Logger" doc:id="e5076817-f787-47c1-a52b-aed1a5c85530" message="#[payload]"/>
 	</flow>
 </mule>
