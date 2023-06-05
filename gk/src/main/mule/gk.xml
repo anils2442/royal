@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:os="http://www.mulesoft.org/schema/mule/os"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="88091e5d-7271-4f3d-bc32-c875d5ec6532" >
+		<http:listener-connection host="localhost" port="8081" />
+	</http:listener-config>
+	<os:object-store name="Object_store" doc:name="Object store" doc:id="fa77ded2-d80e-47b0-9964-a2c1bc4eceb4" />
+	<flow name="gkFlow" doc:id="edff2115-25a4-419a-9740-08887cb91be8" >
+		<http:listener doc:name="Listener" doc:id="82fe1df5-82ea-4c19-be99-d0af2c298207" config-ref="HTTP_Listener_config" path="/gk"/>
+		<set-variable value="#[attributes.queryParams.name]" doc:name="Set Variable" doc:id="c0ee660e-a870-4548-bc34-9b93d5aaf22b" variableName="name"/>
+		<set-variable value="#[attributes.queryParams.id]" doc:name="Set Variable" doc:id="bde96539-2809-4ebd-b2c6-b0583e85ce4e" variableName="id"/>
+		<os:store doc:name="Store" doc:id="2b002eb5-afc2-40c5-92f3-a98d78041df6" key="#[vars.name]" objectStore="Object_store">
+			<os:value ><![CDATA[#[vars.id]]]></os:value>
+		</os:store>
+		<logger level="INFO" doc:name="Logger" doc:id="e4195214-b04e-40c1-8848-ac5fb3a9d561" message="#[payload]"/>
+	</flow>
+	<flow name="gkFlow1" doc:id="4196a50d-46b6-4561-95d4-d9d273985335" >
+		<http:listener doc:name="Listener" doc:id="b574d662-e150-47f4-9a72-21361ddae39b" config-ref="HTTP_Listener_config" path="/rall"/>
+		<os:retrieve-all doc:name="Retrieve all" doc:id="d4cc0d57-4392-4f8a-879b-ec51fe292be3" objectStore="Object_store"/>
+	</flow>
+	<flow name="gkFlow2" doc:id="ff00e58f-25fe-44c1-b0a3-1ed566f52ae9" >
+		<http:listener doc:name="Listener" doc:id="e13ab645-7048-4b0a-aa2a-22e6a1788036" config-ref="HTTP_Listener_config" path="akey"/>
+		<os:retrieve-all-keys doc:name="Retrieve all keys" doc:id="e5425b35-4f90-4708-85bf-8541eea74284" objectStore="Object_store"/>
+	</flow>
+	<flow name="gkFlow3" doc:id="f45d88da-057b-414e-8cc2-aa1762afa675" >
+		<http:listener doc:name="Listener" doc:id="ab49878e-a8a4-4e56-961d-dd2586944f89" config-ref="HTTP_Listener_config" path="/contains"/>
+		<os:contains doc:name="Contains" doc:id="877145ac-997e-4186-875b-e9d788097b40" key="#[attributes.queryParams.name]" objectStore="Object_store"/>
+		<ee:transform doc:name="Transform Message" doc:id="0367e5d5-03c6-44d4-9bbf-2b6a98a0c958" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
